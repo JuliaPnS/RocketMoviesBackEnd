@@ -1,7 +1,7 @@
 exports.up = knex => knex.schema.createTable("movies", table => {
     table.increments("id");
-    table.text("title");
-    table.text("description");
+    table.varchar("title");
+    table.varchar("description");
     table.integer("rating");
     table.integer("user_id").references("id").inTable("users");
     

@@ -4,7 +4,7 @@ const { hash, compare } =  require("bcrypt");
 const sqliteConnection = require("../database/sqlite")
 
 
-class UsersControllers {
+class UsersController {
     async create(request, response) {
         const { name, email, password } = request.body;
 
@@ -70,4 +70,4 @@ class UsersControllers {
     }
 };
 
-module.exports = UsersControllers
+module.exports = UsersController
