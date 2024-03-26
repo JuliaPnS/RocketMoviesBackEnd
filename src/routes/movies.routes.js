@@ -6,6 +6,7 @@ const MoviesController = require("../controllers/MoviesController")
 const moviesController = new MoviesController();
 
 moviesRoutes.post("/", moviesController.create);
-moviesRoutes.get("/:id", moviesController.show)
+moviesRoutes.get("/:id", moviesController.show);
+moviesRoutes.delete("/:id", moviesController.delete);
 
 module.exports = moviesRoutes;
