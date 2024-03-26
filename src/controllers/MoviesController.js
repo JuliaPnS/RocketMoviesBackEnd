@@ -44,6 +44,33 @@ class MoviesController {
         return response.json();
     }
 
+    async update(request, response) {
+        const { id } = request.params;
+        const  { title, description, rating, tags } = request.body;
+
+        await knex("movies").where({ id }).update({
+            title,
+            description,
+            rating
+        });
+
+        if(tags) {
+            const tagsInsert = tags.map(name => {
+                return {
+                    movie_id: id,
+                    name
+                }
+            });
+        
+
+        await knex("tags").where({ movie_id: id}).del();
+        await knex("tags").insert(tagsInsert);
+
+        }
+
+        return response.json({ id: id});
+    }
+
 
 };
 
