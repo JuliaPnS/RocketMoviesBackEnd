@@ -71,6 +71,45 @@ class MoviesController {
         return response.json({ id: id});
     }
 
+    async index(request, response) {
+        const { search } = request.query;
+
+        let movies;
+
+        if(search) {
+            movies = await knex("movies")
+                .select([
+                    "movies.id",
+                    "movies.title",
+                    "movies.description",
+                    "movies.rating"
+                ])
+                .whereLike("title", `%${search}%`).orWhereLike("name", `%${search}%`)
+                .innerJoin("tags", "movies.id", "tags.movie_id").distinct()
+        } 
+        else {
+            movies = await knex("movies").orderBy("title");
+        }
+
+
+        let tags = await knex("tags")
+        movies = movies.map(movie => {
+            let filteredTags = tags.filter(tag => {
+                return tag.movie_id == movie.id
+                    })
+
+            return {
+                "id": movie.id,
+                "title": movie.title,
+                "tags": filteredTags,
+                "description": movie.description,
+                "rating": movie.rating
+            }
+        })
+        return response.json(movies);
+
+    }
+
 
 };
 
